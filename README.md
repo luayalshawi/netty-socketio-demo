@@ -2,6 +2,7 @@
 basic example for netty-socketio which supports room chats
 
 compile: mvn clean install
+
 run: mvn exec:java
 
 To use room features which allow one person or multiple people to communicate with each other:
