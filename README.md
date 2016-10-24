@@ -29,6 +29,8 @@ To use room features which allow one person or multiple people to communicate wi
 3.     		socket.on('sendToRoom',function(data) {
           		//data is the recieved message. It's a json object
       		})
+		
+	To recieve a message
       
       
       
