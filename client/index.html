@@ -34,12 +34,23 @@
 		var socket =  io.connect('http://localhost:9092');
 
 		socket.on('connect', function() {
+      socket.emit('joinRoom',{roomName:userName})
 			output('<span class="connect-msg">Client has connected to the server!</span>');
 		});
 
 		socket.on('chatevent', function(data) {
 			output('<span class="username-msg">' + data.userName + ':</span> ' + data.message);
 		});
+
+    socket.on('sendToRoom',function(data) {
+      if(data.userName ==userName)
+      {
+        output('<span class="username-msg">Me, Sent To: ' + data.sendTo + ':</span> ' + data.message);
+      }
+      else {
+        output('<span class="username-msg"> recieved from: ' + data.sendFrom + ':</span> ' + data.message);
+      }
+    })
 
 		socket.on('disconnect', function() {
 			output('<span class="disconnect-msg">The client has disconnected!</span>');
@@ -57,7 +68,19 @@
                                           message: message};
                         socket.emit('chatevent', jsonObject);
 		}
-
+    function sendMessageToPerson() {
+                        var message = $('#msg').val();
+                        $('#msg').val('');
+                        var sendTo = $('#sendToUserName').val();
+                        console.log(sendTo);
+                        var jsonObject = {
+                                          userId:"2",
+                                          userName: userName,
+                                          sendFrom:userName,
+                                          sendTo:sendTo,
+                                          message: message};
+                        socket.emit('sendToRoom', jsonObject);
+		}
 		function output(message) {
                         var currentTime = "<span class='time'>" +  moment().format('HH:mm:ss.SSS') + "</span>";
                         var element = $("<div>" + currentTime + " " + message + "</div>");
@@ -82,8 +105,10 @@
 	</div>
 
         <form class="well form-inline" onsubmit="return false;">
+           <input id="sendToUserName" class="input-xlarge" type="text" placeholder="Type person user ID"/>
            <input id="msg" class="input-xlarge" type="text" placeholder="Type something..."/>
-           <button type="button" onClick="sendMessage()" class="btn" id="send">Send</button>
+           <button type="button" onClick="sendMessage()" class="btn" id="send">Send To All</button>
+           <button type="button" onClick="sendMessageToPerson()" class="btn" id="sendtoperson">Send To Person</button>
            <button type="button" onClick="sendDisconnect()" class="btn">Disconnect</button>
         </form>
 
