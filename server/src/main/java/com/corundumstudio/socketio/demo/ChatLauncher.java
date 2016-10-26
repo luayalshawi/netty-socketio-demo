@@ -3,6 +3,7 @@ package com.corundumstudio.socketio.demo;
 import com.corundumstudio.socketio.listener.*;
 import com.corundumstudio.socketio.*;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 
 public class ChatLauncher {
@@ -39,12 +40,16 @@ public class ChatLauncher {
         server.addEventListener("sendToRoom", ChatObject.class, new DataListener<ChatObject>() {
             @Override
             public void onData(SocketIOClient client, ChatObject data, AckRequest ackRequest) {
+                // Todo throw exceptions to handle errors
                 System.out.println("Send to Room");
                 System.out.println("    userName:"+data.getUserName());
-                System.out.println("    send To:"+data.getSendTo());
                 System.out.println("    from:"+data.getSendFrom());
                 System.out.println("    message:"+data.getMessage());
-                server.getRoomOperations(data.getSendTo()).sendEvent("sendToRoom", data);
+                for (String room: data.getSendTo())
+                {
+                    System.out.println("    Sending to room:"+room);
+                    server.getRoomOperations(room).sendEvent("sendToRoom", data);
+                }
                 server.getRoomOperations(data.getSendFrom()).sendEvent("sendToRoom", data);
             }
         });

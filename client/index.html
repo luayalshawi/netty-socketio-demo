@@ -72,12 +72,13 @@
                         var message = $('#msg').val();
                         $('#msg').val('');
                         var sendTo = $('#sendToUserName').val();
+                        var sendToArr = sendTo.split(",");
                         console.log(sendTo);
                         var jsonObject = {
                                           userId:"2",
                                           userName: userName,
                                           sendFrom:userName,
-                                          sendTo:sendTo,
+                                          sendTo:sendToArr,//["user300","user301"],//sendTo,
                                           message: message};
                         socket.emit('sendToRoom', jsonObject);
 		}

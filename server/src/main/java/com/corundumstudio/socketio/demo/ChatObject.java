@@ -5,12 +5,12 @@ public class ChatObject {
     private String userName;
     private String message;
     private String sendFrom;
-    private String sendTo;
+    private String[] sendTo;
 
     public ChatObject() {
     }
 
-    public ChatObject(String userId,String userName, String message,String sendFrom,String sendTo) {
+    public ChatObject(String userId,String userName, String message,String sendFrom,String[] sendTo) {
         super();
         this.userId = userId;
         this.userName = userName;
@@ -46,11 +46,11 @@ public class ChatObject {
         this.sendFrom = sendFrom;
     }
 
-    public String getSendTo() {
+    public String[] getSendTo() {
         return sendTo;
     }
 
-    public void setSendTo(String sendTo) {
+    public void setSendTo(String[] sendTo) {
         this.sendTo = sendTo;
     }
 }
